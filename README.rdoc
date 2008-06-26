@@ -9,7 +9,7 @@ Capistrano recipes to make it easier to specify gems that need to be installed.
 
 == Install
 
-  $ gem install eric-gemist
+  $ gem install eric-gemist -s http://gems.github.com/
 
 
 == Configuration
@@ -41,6 +41,14 @@ If you are like me and have set :use_sudo to false, you can make sure sudo
 is used to install the gems by running:
 
   $ cap gems:install -s run_method=sudo
+
+
+== Thanks
+
+Special thanks to:
+
+* Jesse Newland for his inspiration to write this in the form of the san_juan
+  capistrano recipe: ttp://github.com/jnewland/san_juan
 
 
 == License

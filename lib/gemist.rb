@@ -66,7 +66,7 @@ module Gemist
     gem_installed = %(ruby -rubygems -e 'exit(Gem.source_index.find_name(%(#{package}), %(#{version})).size > 0)')
     cmd = %(/bin/sh -c "#{gem_installed} || #{gem_install} #{source_arg} #{version_arg} #{package}")
     send run_method, cmd, :shell => false, :pty => true do |channel, stream, data|
-      data.each_line do | line |
+      data.each_line do |line|
         case line
         when /\s(\d+).*\(#{platform}\)/
           if selections[channel[:host]].nil?
