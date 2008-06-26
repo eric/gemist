@@ -45,7 +45,7 @@ is used to install the gems by running:
 
 == License
 
-  (The MIT License)
+(The MIT License)
 
   Copyright (c) 2008 Eric Lindvall
 
