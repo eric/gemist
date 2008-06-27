@@ -69,7 +69,7 @@ module Gemist
       data.each_line do |line|
         case line
         when /\s(\d+).*\(#{platform}\)/
-          if selections[channel[:host]].nil?
+          unless selections[channel[:host]]
             selections[channel[:host]]=$1.dup+"\n"
             logger.info "Selecting #$&", "#{stream} :: #{channel[:host]}"
           end

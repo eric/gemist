@@ -48,7 +48,7 @@ is used to install the gems by running:
 Special thanks to:
 
 * Jesse Newland for his inspiration to write this in the form of the san_juan
-  capistrano recipe: ttp://github.com/jnewland/san_juan
+  capistrano recipe: http://github.com/jnewland/san_juan
 
 
 == License
