@@ -38,6 +38,18 @@ module Gemist
     end
   end
 
+  def install_system
+    url = "http://rubyforge.org/frs/download.php/38646/rubygems-1.2.0.tgz"
+    filename = 'rubygems-1.2.0.tgz'
+    expanded_directory = 'rubygems-1.2.0'
+
+    run "mkdir -p #{shared_path}/opt/src #{shared_path}/opt/dist #{shared_path}/opt/bin"
+    run "curl -L -q -o #{shared_path}/opt/dist/#{filename} #{url}"
+    run "rm -rf #{shared_path}/opt/src/#{expanded_directory}"
+    run "tar zxvf #{shared_path}/opt/dist/#{filename} -C #{shared_path}/opt/src"
+    run "cd #{shared_path}/opt/src/#{expanded_directory} && sudo ruby setup.rb"
+  end
+
   # Upgrade the *gem* system to the latest version. Runs via *sudo*
   def update_system
     gem_install = fetch('gemist_gem_install') { "gem install --no-rdoc --no-ri" }
@@ -90,7 +102,11 @@ Capistrano.plugin :gemist, Gemist
 
 Capistrano::Configuration.instance(:must_exist).load do
   namespace :gems do
-    desc "Update rubygems"
+    desc "Install rubygems"
+    task :install_system do
+      gemist.install_system
+    end
+     desc "Update rubygems"
     task :update_system do
       gemist.update_system
     end
