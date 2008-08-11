@@ -68,15 +68,20 @@ module Gemist
     version = options.delete(:version) || '>= 0.0.0'
     platform = options.delete(:platform) || 'ruby'
     source = options.delete(:source)
+    install_args = options.delete(:args)
 
     gem_install = fetch('gemist_gem_install') { "gem install --no-rdoc --no-ri" }
 
     source_arg = "--source #{source}" if source
     version_arg = "--version '#{version}'"
+    install_cmd = "#{gem_install} #{source_arg} #{version_arg} #{package}"
+    if install_args
+      install_cmd << " -- #{install_args}"
+    end
 
     selections={}
     gem_installed = %(ruby -rubygems -e 'exit(Gem.source_index.find_name(%(#{package}), %(#{version})).size > 0)')
-    cmd = %(/bin/sh -c "#{gem_installed} || #{gem_install} #{source_arg} #{version_arg} #{package}")
+    cmd = %(/bin/sh -c "#{gem_installed} || #{install_cmd}")
     send run_method, cmd, :shell => false, :pty => true do |channel, stream, data|
       data.each_line do |line|
         case line
@@ -106,7 +111,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :install_system do
       gemist.install_system
     end
-     desc "Update rubygems"
+
+    desc "Update rubygems"
     task :update_system do
       gemist.update_system
     end
